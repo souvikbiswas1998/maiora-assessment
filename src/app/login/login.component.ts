@@ -4,25 +4,32 @@ import { HttpService } from '../http.service';
 import { CommonService } from '../common.service';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NgIf, FormsModule, ReactiveFormsModule,],
+  imports: [NgIf, FormsModule, MatInputModule, ReactiveFormsModule,
+    MatCardModule, MatIconModule, MatButtonModule, MatSnackBarModule, MatDividerModule,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  form: FormGroup;
   constructor(private fb: FormBuilder, private http: HttpService, private cs: CommonService, private router: Router) {
-    this.loginForm = this.fb.group({
+    this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.http.login(this.loginForm.value).subscribe({
+    if (this.form.valid) {
+      this.http.login(this.form.value).subscribe({
         next: (data: any) => {
           console.log(data);
           localStorage.setItem('access_token', data.access_token)
@@ -39,9 +46,9 @@ export class LoginComponent {
     }
   }
   get email() {
-    return this.loginForm.get('email');
+    return this.form.get('email');
   }
   get password() {
-    return this.loginForm.get('password');
+    return this.form.get('password');
   }
 }
