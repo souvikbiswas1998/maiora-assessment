@@ -1,0 +1,66 @@
+<h4 style="margin: 16px;">{{leaveRequestForm.disabled ? 'View ' : 'Add New '}} Leave</h4>
+<form [formGroup]="leaveRequestForm" (ngSubmit)="onSubmit()" class="container">
+    <div class="form-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Select Class</mat-label>
+            <mat-select formControlName="class" (selectionChange)="change()">
+                <mat-option *ngFor="let class of classes" [value]="class">{{ class }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Section</mat-label>
+            <mat-select formControlName="section" (selectionChange)="change()">
+                <mat-option *ngFor="let section of sections" [value]="section">{{ section }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Select Student {{leaveRequestForm.value.name}}</mat-label>
+            <mat-select formControlName="name">
+                <mat-option *ngFor="let student of students" (click)="leaveRequestForm.get('id')?.setValue(student.id)"
+                    [value]="student.name">{{student.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reason</mat-label>
+            <textarea matInput formControlName="reason"></textarea>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <div class="radio-group">
+            <label>Number Of Leave days:</label>
+            <mat-radio-group formControlName="leaveType">
+                <mat-radio-button value="single">Single Day</mat-radio-button>
+                <mat-radio-button value="multiple">Multiple Days</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="fromDate">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="toDate"
+                [disabled]="leaveRequestForm.get('leaveType')?.value === 'single'">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <div class="radio-group">
+            <label>Status:</label>
+            <mat-radio-group formControlName="status">
+                <mat-radio-button value="Approved">Approved</mat-radio-button>
+                <mat-radio-button value="Unapproved">Unapproved</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+
+</form>
+<button mat-raised-button color="primary" (click)="onSubmit()" type="submit">Submit</button>

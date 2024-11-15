@@ -1,0 +1,23 @@
+<mat-toolbar>
+  <span routerLink="" style="cursor: pointer; padding-left: 8px;">{{title | titlecase}}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="favorite-icon" [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item routerLink="/about-me">
+      <mat-icon>assignment_ind</mat-icon>
+      <span>About Me</span>
+    </a>
+    <a mat-menu-item href="https://github.com/souvikbiswas1998/maiora-assessment" target="_blank">
+      <mat-icon>bookmark</mat-icon>
+      <span>View in Git</span>
+    </a>
+    <a mat-menu-item href="mailto:souvik.biswas1998@gmail.com">
+      <mat-icon>alternate_email</mat-icon>
+      <span>Email Me</span>
+    </a>
+  </mat-menu>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
